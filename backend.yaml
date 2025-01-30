@@ -19,8 +19,8 @@ spec:
         ports:
         - containerPort: 4000
         env:
-        - name: MONGO_URI
-          value: "mongodb://mongo:27017/ecommerce"  # MongoDB internal URI
+        - name: MONGO_URL
+          value: "mongodb://ecommerce:ecommerce@ecommerce-db-273354646536.ap-south-1.docdb-elastic.amazonaws.com:27017"  # MongoDB internal URI
         resources:
           requests:
             memory: "512Mi"

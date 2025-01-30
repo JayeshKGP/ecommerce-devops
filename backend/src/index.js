@@ -1,37 +1,33 @@
 const express = require('express');
+require('dotenv').config();
+const fs = require('fs');
+const { MongoClient } = require('mongodb');
 const app = express();
 const PORT = process.env.PORT || 4000;
+const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017';
+const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true,
+    retryWrites: false
+ });
 
-function memoryIntensiveTask() {
-    const largeArray = [];
-    for (let i = 0; i < 1e7; i++) {
-      largeArray.push(i);
+let collection;
+console.log(mongoURL);
+client.connect()
+    .then(() => {
+        console.log('MongoDB connected');
+        const db = client.db('user_db');
+        collection = db.collection('user_info');
+    })
+    .catch(err => console.error('MongoDB connection error:', err));
+
+app.get('/', async (req, res) => {
+    try {
+        const user = await collection.findOne({});
+        res.send(user);
+    } catch (err) {
+        console.error('Error fetching user:', err);
+        res.status(500).send('Error fetching user');
     }
-    return largeArray;
-  }
-
-
-app.get('/', (req, res) => {
-    for(let i=1; i<=10; i++){
-        memoryIntensiveTask();
-    }
-    res.send('Backend completed');
 });
-
-function cpuIntensiveTask() {
-    let total = 0;
-    for (let i = 0; i < 1e9; i++) {
-      total += i;
-    }
-    return total;
-  }
-  
-  // Call this function in your route handler
-  app.get('/heavy-task', (req, res) => {
-    const result = cpuIntensiveTask();
-    res.send(`Result: ${result}`);
-  });
-  
 
 app.listen(PORT, '0.0.0.0',() => {
     console.log(`Server is running on port ${PORT}`);
