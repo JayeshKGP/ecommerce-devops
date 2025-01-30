@@ -5,8 +5,12 @@ const { MongoClient } = require('mongodb');
 const app = express();
 const PORT = process.env.PORT || 4000;
 const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017';
+const tlsCertPath = "./rds-combined-ca-bundle.pem";
 const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true,
-    retryWrites: false
+    retryWrites: false,
+    tls: true,
+    tlsCAFile: fs.readFileSync(tlsCertPath),
+    authMechanism: 'SCRAM-SHA-1',
  });
 
 let collection;
