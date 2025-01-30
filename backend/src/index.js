@@ -9,7 +9,6 @@ const tlsCertPath = "./global-bundle.pem";
 const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true,
     retryWrites: false,
     tls: true,
-    tlsCAFile: tlsCertPath,
     authMechanism: 'SCRAM-SHA-1',
  });
 
