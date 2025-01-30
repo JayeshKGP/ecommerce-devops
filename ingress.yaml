@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-ingress
+spec:
+  rules:
+  - host: k8s-pods-backend-be610bb8fb-4ce527db1c2ed2fe.elb.ap-south-1.amazonaws.com   # Use the IP address of your cloud's load balancer
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: backend
+            port:
+              number: 4000
