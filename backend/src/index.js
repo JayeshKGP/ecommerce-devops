@@ -9,7 +9,7 @@ const tlsCertPath = "./rds-combined-ca-bundle.pem";
 const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true,
     retryWrites: false,
     tls: true,
-    tlsCAFile: fs.readFileSync(tlsCertPath),
+    tlsCAFile: tlsCertPath,
     authMechanism: 'SCRAM-SHA-1',
  });
 
