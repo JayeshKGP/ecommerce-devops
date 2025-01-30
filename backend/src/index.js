@@ -5,7 +5,7 @@ const { MongoClient } = require('mongodb');
 const app = express();
 const PORT = process.env.PORT || 4000;
 const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017';
-const tlsCertPath = "./rds-combined-ca-bundle.pem";
+const tlsCertPath = "./global-bundle.pem";
 const client = new MongoClient(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true,
     retryWrites: false,
     tls: true,
